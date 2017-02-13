@@ -1,0 +1,19 @@
+{% load i18n %}
+<html>
+    <head>
+        <title>{% trans "Sign up" %}</title>
+    </head>
+    <body>
+        <form class="registration-form" method="post">{% csrf_token %}
+            <h1>{% trans "Register" %}</h1>
+            {% for field in form %}
+            <div class="form-group">
+                {{ field.errors }}
+                {{ field }}
+            </div>
+            {% endfor %}
+
+            <button type="submit" class="btn btn-primary">Register</button>
+        </form>
+    </body>
+</html>

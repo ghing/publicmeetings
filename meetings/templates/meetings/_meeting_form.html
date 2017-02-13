@@ -1,0 +1,11 @@
+{% for field in form %}
+    {% if field.name == "official" %}
+    {{ field }}
+    {% else %}
+    <div class="form-group">
+        {{ field.errors }}
+        {{ field.label_tag }}
+        {{ field }}
+    </div>
+    {% endif %}
+{% endfor %}

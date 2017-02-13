@@ -1,0 +1,17 @@
+{
+  "name": "publicmeetings",
+  "version": "0.1.0",
+  "description": "publicmeetings ==============",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build:styles": "node-sass static_src/scss/publicmeetings.scss > static/css/publicmeetings.css",
+    "build": "run-p build:styles"
+  },
+  "author": "Geoff Hing <geoffhing@gmail.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "node-sass": "^4.5.0",
+    "npm-run-all": "^4.0.1"
+  }
+}

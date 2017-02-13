@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "Sign in" %}{% endblock %}
+
+{% block content %}
+<div class="container">
+    <form method="post" class="signin-form">{% csrf_token %}
+        <h1>{% trans "Please sign in" %}</h1>
+        {{ form.media }}
+        <div class="form-group">
+            <input id="id_username" name="username" type="text"
+                   class="form-control"
+                   placeholder="{% trans "Email address" %}"
+                   required>
+        </div>
+        <button type="submit" class="btn btn-lg btn-primary btn-block">{% trans "Get sign in link" %}</button>
+        <a href="{% url 'email_username_auth:register' %}" class="register-link">{% trans "Register" %}</a>
+    </form>
+</div>
+{% endblock %}
