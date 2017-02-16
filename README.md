@@ -121,3 +121,16 @@ Install the build dependencies:
 To rebuild the assets:
 
     npm run build
+
+Deploying on Heroku
+-------------------
+
+This app was built with deploying on [Heroku](https://www.heroku.com/) in mind.
+
+To deploy on Heroku:
+
+    heroku login
+    heroku create
+    git push heroku master
+    cat appalachia_ocd_ids.txt | heroku run python manage.py createusreps --infile -
+    heroku run python manage.py createsuperuser
