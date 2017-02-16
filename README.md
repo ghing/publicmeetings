@@ -59,7 +59,7 @@ Examples:
 
     DATABASE_URL=postgresql://publicmeetings:publicmeetings@localhost/publicmeetings
 
-    # This one works if you have postgres configured to connect through 
+    # This one works if you have postgres configured to connect through
     # sockets without a password
     DATABASE_URL=postgresql:///publicmeetings
 
@@ -134,3 +134,21 @@ To deploy on Heroku:
     git push heroku master
     cat appalachia_ocd_ids.txt | heroku run python manage.py createusreps --infile -
     heroku run python manage.py createsuperuser
+
+You'll want to make sure you set the confiuration variables mentioned above for your Heroku instance.
+
+### Running locally
+
+If you're deploying via Heroku, you're better off using `heroku local web` to run your app rather than `manage.py runserver` because the development environment will much more closely resemble the production environment.
+
+### Syncing local database with production database
+
+It will propbably be useful to populate your local development instance with production data.  You can do this with commands from the Heroku CLI.
+
+    # Warning: this completely kills any existing data in your development
+    # database
+    dropdb publicmeetings && \
+    heroku pg:backups:capture && \
+    heroku pg:backups:download && \
+    createdb publicmeetings && \
+    pg_restore -d publicmeetings latest.dump
