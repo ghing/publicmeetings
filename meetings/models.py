@@ -92,11 +92,13 @@ class SocialMediaChannel(models.Model):
     """Social media channel for an official"""
 
     CHANNEL_TYPE_CHOICES = (
-        ('GooglePlus', 'Google +'),
+        ('GooglePlus', 'Google+'),
         ('YouTube', 'YouTube'),
         ('Facebook', 'Facebook'),
         ('Twitter', 'Twitter'),
     )
+
+    CHANNEL_TYPE_LOOKUP = {k: v for k, v in CHANNEL_TYPE_CHOICES}
 
     channel_id = models.CharField(max_length=254)
     channel_type = models.CharField(max_length=20, choices=CHANNEL_TYPE_CHOICES)
@@ -104,6 +106,18 @@ class SocialMediaChannel(models.Model):
 
     def __str__(self):
         return self.channel_id
+
+    def get_url(self):
+        url_templates = {
+            'Facebook': "https://www.facebook.com/{channel_id}",
+            'Twitter': "https://twitter.com/{channel_id}",
+            'YouTube': "https://www.youtube.com/user/{channel_id}",
+            'GooglePlus': "https://plus.google.com/u/0/+{channel_id}",
+        }
+        return url_templates[self.channel_type].format(**vars(self))
+
+    def get_service_name(self):
+        return self.CHANNEL_TYPE_LOOKUP[self.channel_type]
 
 
 class Email(models.Model):

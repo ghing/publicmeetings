@@ -29,6 +29,14 @@
         <dt>Email</dt>
         <dd><a href="mailto:{{ email.address }}">{{ email.address }}</a></dd>
         {% endfor %}
+        {% for url in representative.urls.all %}
+        <dt>Website</dt>
+        <dd><a href="{{ url.url }}">{{ url.url }}</a></dd>
+        {% endfor %}
+        {% for channel in representative.channels.all %}
+        <dt>{{ channel.get_service_name }}</dt>
+        <dd><a href="{{ channel.get_url }}">{{ channel.channel_id }}</a></dd>
+        {% endfor %}
     </dl>
 
     <form action="" method="post">{% csrf_token %}
@@ -36,7 +44,7 @@
         <div class="form-check-label">
           <label class="form-check-label">
             {{ forms.contact_attempt.contacted }}
-            I was able to contact this representative 
+            I was able to contact this representative
           </label>
         </div>
 
@@ -67,7 +75,7 @@
     </form>
 
     {% if contact_attempts %}
-    <h2>Previous contact attempts</h2> 
+    <h2>Previous contact attempts</h2>
     <table class="table">
         <thead>
             <tr>

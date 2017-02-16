@@ -25,6 +25,14 @@
                 <dt>Email</dt>
                 <dd><a href="mailto:{{ email.address }}">{{ email.address }}</a></dd>
                 {% endfor %}
+                {% for url in representative.urls.all %}
+                <dt>Website</dt>
+                <dd><a href="{{ url.url }}">{{ url.url }}</a></dd>
+                {% endfor %}
+                {% for channel in representative.channels.all %}
+                <dt>{{ channel.get_service_name }}</dt>
+                <dd><a href="{{ channel.get_url }}">{{ channel.channel_id }}</a></dd>
+                {% endfor %}
             </dl>
 
             <form action="" method="post">{% csrf_token %}
