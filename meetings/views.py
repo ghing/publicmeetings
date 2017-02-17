@@ -136,7 +136,8 @@ class CallUsRepView(LoginRequiredMixin, MultipleFormsView):
     def get_representative(self):
         return Official.objects.us_reps()\
             .without_meetings()\
-            .order_by_contact_attempts()\
+            .without_contact_attempts()\
+            .order_by('?')\
             .first()
 
     def get_initial(self, prefix=None):

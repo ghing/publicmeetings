@@ -11,6 +11,10 @@ class OfficialQuerySet(models.QuerySet):
         return self.annotate(num_meetings=models.Count('meetings'))\
                    .filter(num_meetings=0)
 
+    def without_contact_attempts(self):
+        return self.annotate(num_contact_attempts=models.Count('contact_attempts'))\
+            .filter(num_contact_attempts=0)
+
     def order_by_contact_attempts(self, desc=False):
         order_by = 'num_contact_attempts'
         if desc:
