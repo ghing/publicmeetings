@@ -11,6 +11,7 @@
         {% endif %}
 
         <div class="container container--main">
+            {% if representative %}
             <h1>Contact U.S. Representative {{ representative.name }} and ask them about their next public meeting</h1>
 
             <p class="lead">{{ representative.name }} is the U.S. Representative for {{ representative.office.division.name }}.</p>
@@ -90,6 +91,11 @@
                     {% endfor %}
                 </tbody>
             </table>
+            {% endif %}
+            {% else %}
+            <h1>There aren't any representatives without contact attempts</h1>
+
+            <p class="lead">Nice work. You've contacted all the representatives about their public meetings.</p>
             {% endif %}
         </div>
     </body>

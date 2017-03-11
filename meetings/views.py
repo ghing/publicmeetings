@@ -155,7 +155,12 @@ class CallUsRepView(LoginRequiredMixin, MultipleFormsView):
     def get_context_data(self, **kwargs):
         context = super(CallUsRepView, self).get_context_data(**kwargs)
         context['representative'] = self._representative
-        context['contact_attempts'] = self._representative.contact_attempts.order_by('-datetime')
+
+        if self._representative is not None:
+            context['contact_attempts'] = self._representative.contact_attempts.order_by('-datetime')
+
+        else:
+            context['contact_attempts'] = []
 
         return context
 
