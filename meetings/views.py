@@ -59,10 +59,6 @@ class OfficialListView(ListView):
     def get_queryset(self):
         return Official.objects.order_by('office__division__name')
 
-    def get_context_data(self):
-        context = super(OfficalListView, self).get_context_data()
-        return context
-
 
 class MultipleFormsMixin(ContextMixin):
     """
