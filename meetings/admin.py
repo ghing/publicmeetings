@@ -6,7 +6,6 @@ from .models import (Division, Office, Official, Email, Phone, Address,
 
 admin.site.register(Division)
 admin.site.register(Office)
-admin.site.register(Meeting)
 
 
 class EmailInline(admin.TabularInline):
@@ -32,6 +31,11 @@ class SocialMediaChannelInline(admin.TabularInline):
 class WebsiteInline(admin.TabularInline):
     model = Website
     extra = 0
+
+
+@admin.register(Meeting)
+class MeetingAdmin(admin.ModelAdmin):
+    search_fields = ['official__name']
 
 
 @admin.register(Official)
