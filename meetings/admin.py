@@ -37,6 +37,12 @@ class WebsiteInline(admin.TabularInline):
 class MeetingAdmin(admin.ModelAdmin):
     search_fields = ['official__name']
 
+    def formfield_for_foreignkey(self, db_field, request, **kwargs):
+            if db_field.name == "official":
+                kwargs["queryset"] = Official.objects.order_by('name')
+
+            return super(MeetingAdmin, self).formfield_for_foreignkey(db_field, request, **kwargs)
+
 
 @admin.register(Official)
 class OfficialAdmin(admin.ModelAdmin):
