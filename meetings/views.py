@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.exceptions import ImproperlyConfigured
@@ -57,7 +59,14 @@ class OfficialListView(ListView):
     context_object_name = 'officials'
 
     def get_queryset(self):
-        return Official.objects.order_by('office__division__name')
+        qs = Official.objects.all()
+
+        without_meetings_since = self.request.GET.get('without_meetings_since')
+        if without_meetings_since is not None:
+            since_date = datetime.strptime(without_meetings_since, '%Y-%m-%d')
+            qs = qs.without_meetings_since(since_date)
+
+        return qs.order_by('office__division__name')
 
 
 class MultipleFormsMixin(ContextMixin):

@@ -11,6 +11,13 @@ class OfficialQuerySet(models.QuerySet):
         return self.annotate(num_meetings=models.Count('meetings'))\
                    .filter(num_meetings=0)
 
+    def without_meetings_since(self, date):
+        """Get officials without a meeting since a given date"""
+
+        return self.annotate(num_meetings=models.Count(
+            models.Case(models.When(meetings__date__gte=date, then=1))))\
+        .filter(num_meetings=0)
+
     def without_contact_attempts(self):
         return self.annotate(num_contact_attempts=models.Count('contact_attempts'))\
             .filter(num_contact_attempts=0)
@@ -21,4 +28,4 @@ class OfficialQuerySet(models.QuerySet):
             order_by = '-' + order_by
 
         return self.annotate(num_contact_attempts=models.Count('contact_attempts'))\
-                   .order_by(order_by)
+           .order_by(order_by)
