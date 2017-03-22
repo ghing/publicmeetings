@@ -52,7 +52,7 @@ class OfficialDetailView(LoginRequiredMixin, DetailView):
     context_object_name = 'official'
 
 
-class OfficalListView(ListView):
+class OfficialListView(ListView):
     model = Official
     context_object_name = 'officials'
 
