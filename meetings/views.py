@@ -1,19 +1,67 @@
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.exceptions import ImproperlyConfigured
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponseRedirect
 from django.urls import reverse
 from django.utils.encoding import force_text
 from django.utils.translation import ugettext_lazy as _
+from django.views.generic import DetailView, ListView, CreateView
 from django.views.generic.base import ContextMixin, TemplateResponseMixin
 from django.views.generic.edit import ProcessFormView
 
 from .forms import ContactAttemptForm, MeetingForm, OfficialMeetingInfoForm
-from .models import Official
+from .models import Meeting, Official
 
 
-def index(request):
-    return HttpResponse("Hello, world. You're at the publicmeetings index.")
+class MeetingCreateView(LoginRequiredMixin, CreateView):
+    model = Meeting
+    form_class = MeetingForm
+
+    def get_initial(self):
+        initial = super(MeetingCreateView, self).get_initial()
+        initial.update(official=self._official)
+        return initial
+
+    def get(self, request, *args, **kwargs):
+        self._official = Official.objects.get(pk=kwargs['pk'])
+        self._user = request.user
+
+        return super(MeetingCreateView, self).get(request, *args, **kwargs)
+
+    def post(self, request, *args, **kwargs):
+        self._official = Official.objects.get(pk=kwargs['pk'])
+        self._user = request.user
+
+        return super(MeetingCreateView, self).post(request, *args, **kwargs)
+
+    def get_context_data(self, **kwargs):
+        context = super(MeetingCreateView, self).get_context_data(**kwargs)
+        context['official'] = self._official
+
+        return context
+
+    def get_success_url(self):
+        return reverse('official-detail', kwargs={
+            'pk': self._official.pk,
+            'slug': self._official.slug,
+        })
+
+
+class OfficialDetailView(LoginRequiredMixin, DetailView):
+    model = Official
+    context_object_name = 'official'
+
+
+class OfficalListView(ListView):
+    model = Official
+    context_object_name = 'officials'
+
+    def get_queryset(self):
+        return Official.objects.order_by('office__division__name')
+
+    def get_context_data(self):
+        context = super(OfficalListView, self).get_context_data()
+        return context
 
 
 class MultipleFormsMixin(ContextMixin):

@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}{{ official.name }}{% endblock %}
+
+{% block content %}
+<div class="container container--main">
+    <h1>
+        <div>{{ official.name }}</div>
+        <div>{{ official.office.name }}</div>
+    </h1>
+
+    {% include "meetings/_official_contact_information.html" %}
+
+    {% if official.meetings.count %}
+    <table class="table">
+        <thead>
+            <tr>
+                <th>{% trans "Date" %}</th>
+                <th>{% trans "Location" %}</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for meeting in official.meetings.all %}
+            <tr>
+                <td>{{ meeting.date }}</td>
+                <td>{{ meeting.location }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% endif %}
+
+    <div class="add-meeting-button-container">
+        <a href="{% url "add-meeting" pk=official.pk slug=official.slug %}" class="btn btn-primary btn-lg">{% trans "Add meeting" %}</a>
+    </div>
+
+    {% if official.contact_attempts.count %}
+    <table class="table">
+        <thead>
+            <tr>
+                <th>{% trans "Date" %}</th>
+                <th>{% trans "Notes" %}</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for contact_attempt in official.contact_attempts.all %}
+            <tr>
+                <td>{{ contact_attempt.datetime }}</td>
+                <td>{{ contact_attempt.notes }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% endif %}
+</div>
+{% endblock %}

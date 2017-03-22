@@ -1,5 +1,8 @@
+from datetime import datetime
+
 from django.conf import settings
 from django.db import models
+from django.utils.text import slugify
 
 from .query import OfficialQuerySet
 
@@ -62,6 +65,16 @@ class Official(models.Model):
 
     def __str__(self):
         return self.name
+
+    def next_meeting(self):
+        return self.meetings.filter(date__gte=datetime.now().date()).order_by('date').first()
+
+    def last_meeting(self):
+        return self.meetings.filter(date__lt=datetime.now().date()).order_by('-date').first()
+
+    @property
+    def slug(self):
+        return slugify(self.name)
 
 
 class Address(models.Model):

@@ -17,24 +17,7 @@
             <p class="lead">{{ representative.name }} is the U.S. Representative for {{ representative.office.division.name }}.</p>
 
             <h2>Contact information</h2>
-            <dl>
-                {% for phone in representative.phones.all %}
-                <dt>Phone</dt>
-                <dd>{{ phone.phone }}</dd>
-                {% endfor %}
-                {% for email in representative.emails.all %}
-                <dt>Email</dt>
-                <dd><a href="mailto:{{ email.address }}">{{ email.address }}</a></dd>
-                {% endfor %}
-                {% for url in representative.urls.all %}
-                <dt>Website</dt>
-                <dd><a href="{{ url.url }}">{{ url.url }}</a></dd>
-                {% endfor %}
-                {% for channel in representative.channels.all %}
-                <dt>{{ channel.get_service_name }}</dt>
-                <dd><a href="{{ channel.get_url }}">{{ channel.channel_id }}</a></dd>
-                {% endfor %}
-            </dl>
+            {% include "meetings/_official_contact_information.html" with official=representative %}
 
             <form action="" method="post">{% csrf_token %}
                 <h2>Were you able to contact the representative?</h2>

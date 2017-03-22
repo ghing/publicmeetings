@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "Create a meeting" %}{% endblock %}
+
+{% block content %}
+<div class="container container--main">
+    <h1>{% blocktrans %}Create a meeting for {{ official }}{% endblocktrans %}</h1>
+
+    <form action="" method="post">{% csrf_token %}
+        {{ form.as_p }}
+        <input type="submit" value="{% trans "Save" %}" />
+    </form>
+</div>
+{% endblock %}

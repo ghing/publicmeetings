@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "Officials with meetings" %}{% endblock %}
+
+{% block content %}
+<div class="container container--main">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>{% trans "District" %}</th>
+                <th>{% trans "Official" %}</th>
+                <th>{% trans "Last meeting" %}</th>
+                <th>{% trans "Next meeting" %}</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for official in officials %}
+            <tr>
+                <td>{{ official.office.division.name }}</td>
+                <td><a href="{% url 'official-detail' pk=official.pk slug=official.name|slugify %}">{{ official.name }}</a></td>
+                <td>{{ official.last_meeting.date }}</td>
+                <td>{{ official.next_meeting.date }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

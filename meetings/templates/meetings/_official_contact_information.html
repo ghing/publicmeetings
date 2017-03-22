@@ -1,0 +1,18 @@
+<dl>
+    {% for phone in official.phones.all %}
+    <dt>Phone</dt>
+    <dd>{{ phone.phone }}</dd>
+    {% endfor %}
+    {% for email in official.emails.all %}
+    <dt>Email</dt>
+    <dd><a href="mailto:{{ email.address }}">{{ email.address }}</a></dd>
+    {% endfor %}
+    {% for url in official.urls.all %}
+    <dt>Website</dt>
+    <dd><a href="{{ url.url }}">{{ url.url }}</a></dd>
+    {% endfor %}
+    {% for channel in official.channels.all %}
+    <dt>{{ channel.get_service_name }}</dt>
+    <dd><a href="{{ channel.get_url }}">{{ channel.channel_id }}</a></dd>
+    {% endfor %}
+</dl>
