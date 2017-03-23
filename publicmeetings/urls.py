@@ -16,7 +16,10 @@ Including another URLconf
 from django.conf.urls import include, url
 from django.contrib import admin
 
+from meetings.api import OfficialResource
+
 urlpatterns = [
+    url(r'^api/v1/officials/', include(OfficialResource.urls())),
     url(r'^meetings/', include('meetings.urls')),
     url(r'^admin/', admin.site.urls),
     url(r'^accounts/', include('nopassword.urls', namespace='nopassword')),

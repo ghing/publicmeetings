@@ -18,6 +18,11 @@ class OfficialQuerySet(models.QuerySet):
             models.Case(models.When(meetings__date__gte=date, then=1))))\
         .filter(num_meetings=0)
 
+    def promotes_meetings_through_twitter(self):
+        q = (models.Q(meeting_info_source__icontains="social media") |
+             models.Q(meeting_info_source__icontains="twitter"))
+        return self.filter(q)
+
     def without_contact_attempts(self):
         return self.annotate(num_contact_attempts=models.Count('contact_attempts'))\
             .filter(num_contact_attempts=0)
