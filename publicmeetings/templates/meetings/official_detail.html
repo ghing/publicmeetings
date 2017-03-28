@@ -5,6 +5,11 @@
 
 {% block content %}
 <div class="container container--main">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{% url 'index' %}">{% trans "Meetings" %}</a></li>
+        <li class="breadcrumb-item active">{{ official.name }}</li>
+    </ol>
+
     <h1>
         <div>{{ official.name }}</div>
         <div>{{ official.office.name }}</div>

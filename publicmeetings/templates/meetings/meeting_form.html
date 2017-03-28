@@ -5,6 +5,12 @@
 
 {% block content %}
 <div class="container container--main">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{% url 'index' %}">{% trans "Meetings" %}</a></li>
+        <li class="breadcrumb-item active"><a href="{% url 'official-detail' pk=official.pk slug=official.name|slugify %}">{{ official.name }}</a></li>
+        <li class="breadcrumb-item active">{% trans "Add a Meeting" %}</li>
+    </ol>
+
     <h1>{% blocktrans %}Create a meeting for {{ official }}{% endblocktrans %}</h1>
 
     <form action="" method="post">{% csrf_token %}
