@@ -43,6 +43,7 @@ class OfficialResource(DjangoResource):
         return {
             'date': meeting.date,
             'time': meeting.time,
+            'meeting_type': meeting.meeting_type,
             'location': meeting.location,
             'event_website': meeting.event_website,
         }
