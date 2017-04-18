@@ -163,9 +163,17 @@ class Phone(models.Model):
 
 class Meeting(models.Model):
     """Public meeting held by an official"""
+    MEETING_TYPE_CHOICES = (
+      ('in-person', "In-person"),
+      ('telephone', "Telephone"),
+      ('facebook', "Facebook"),
+    )
+
     date = models.DateField()
     time = models.TimeField(blank=True, null=True)
     location = models.TextField(blank=True)
+    meeting_type = models.CharField(max_length=10,
+        choices=MEETING_TYPE_CHOICES, blank=True, null=True)
     event_website = models.URLField(blank=True)
     notes = models.TextField(blank=True)
     official = models.ForeignKey('Official', related_name='meetings')

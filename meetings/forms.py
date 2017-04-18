@@ -18,11 +18,23 @@ class MeetingForm(forms.ModelForm):
         model = Meeting
         # Use HTML5 input types to get widgets and do some client-side
         # validation
-        fields = ['official', 'date', 'time', 'location', 'event_website', 'notes']
+        fields = [
+            'official',
+            'date',
+            'time',
+            'meeting_type',
+            'location',
+            'event_website',
+            'notes'
+        ]
+
         widgets = {
             'official': forms.HiddenInput(),
             'time': forms.TimeInput(attrs={
                 'type': 'time',
+                'class': DEFAULT_FORM_WIDGET_CLASS,
+            }),
+            'meeting_type': forms.Select(attrs={
                 'class': DEFAULT_FORM_WIDGET_CLASS,
             }),
             'location': forms.Textarea(attrs={
