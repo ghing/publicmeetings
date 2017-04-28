@@ -33,6 +33,7 @@ class OfficialResource(DjangoResource):
         prepped = super(OfficialResource, self).prepare(data)
         prepped['meetings'] = self._prepare_meetings(data)
         prepped['social_media'] = self._prepare_social_media(data)
+        prepped['office'] = self._prepare_office(data)
 
         return prepped
 
@@ -56,4 +57,16 @@ class OfficialResource(DjangoResource):
         return {
             'channel_id': channel.channel_id,
             'channel_type': channel.channel_type,
+        }
+
+    def _prepare_office(self, data):
+        return {
+            'name': data.office.name,
+            'division': self._prepare_division(data.office.division),
+        }
+
+    def _prepare_division(self, division):
+        return {
+            'ocd_id': division.ocd_id,
+            'name': division.name,
         }
