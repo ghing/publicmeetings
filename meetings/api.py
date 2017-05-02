@@ -42,6 +42,7 @@ class OfficialResource(DjangoResource):
 
     def _prepare_meeting(self, meeting):
         return {
+            'id': meeting.id,
             'date': meeting.date,
             'time': meeting.time,
             'meeting_type': meeting.meeting_type,
