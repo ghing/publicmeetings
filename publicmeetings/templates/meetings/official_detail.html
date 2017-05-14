@@ -22,6 +22,7 @@
         <thead>
             <tr>
                 <th>{% trans "Date" %}</th>
+                <th>{% trans "Type" %}</th>
                 <th>{% trans "Location" %}</th>
             </tr>
         </thead>
@@ -29,6 +30,7 @@
             {% for meeting in official.meetings.all %}
             <tr>
                 <td>{{ meeting.date }}</td>
+                <td>{{ meeting.meeting_type }}</td>
                 <td>{{ meeting.location }}</td>
             </tr>
             {% endfor %}
