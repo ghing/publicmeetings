@@ -4,6 +4,8 @@ from django.conf import settings
 from django.db import models
 from django.utils.text import slugify
 
+import archieml
+
 from .query import OfficialQuerySet
 
 
@@ -180,6 +182,14 @@ class Meeting(models.Model):
 
     def __str__(self):
         return "{} on {}".format(self.official, self.date)
+
+    def fields_from_notes(self):
+        normalized = {}
+        parsed = archieml.loads(self.notes)
+        for k, v in parsed.items():
+            normalized[slugify(k).replace('-', '_')] = v
+
+        return normalized
 
 
 class ContactAttempt(models.Model):

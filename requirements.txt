@@ -5,3 +5,4 @@ django-nopassword==3.0.1
 gunicorn==19.6.0
 whitenoise==3.3.0
 restless==2.0.3
+archieml==0.3.2
