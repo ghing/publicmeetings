@@ -169,6 +169,7 @@ class Meeting(models.Model):
       ('in-person', "In-person"),
       ('telephone', "Telephone"),
       ('facebook', "Facebook"),
+      ('radio', "Radio"),
     )
 
     date = models.DateField()
