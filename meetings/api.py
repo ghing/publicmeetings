@@ -2,6 +2,7 @@ from datetime import datetime
 
 from meetings.models import Official
 
+from restless.constants import OK
 from restless.dj import DjangoResource
 from restless.preparers import FieldsPreparer
 
@@ -13,6 +14,11 @@ class OfficialResource(DjangoResource):
         'in_office': 'in_office',
         'meeting_info_source': 'meeting_info_source',
     })
+
+    def build_response(self, data, status=OK):
+        resp = super(OfficialResource, self).build_response(data, status)
+        resp['Access-Control-Allow-Origin'] = '*'
+        return resp
 
     def list(self):
         qs = Official.objects.all()
