@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load i18n %}
+{% load admin_urls %}
 
 {% block title %}{{ official.name }}{% endblock %}
 
@@ -24,6 +25,7 @@
                 <th>{% trans "Date" %}</th>
                 <th>{% trans "Type" %}</th>
                 <th>{% trans "Location" %}</th>
+                <th></th>
             </tr>
         </thead>
         <tbody>
@@ -32,6 +34,7 @@
                 <td>{{ meeting.date }}</td>
                 <td>{{ meeting.meeting_type }}</td>
                 <td>{{ meeting.location }}</td>
+                <td><a href="{% url 'admin:meetings_meeting_change' meeting.pk %}">Edit</a></td>
             </tr>
             {% endfor %}
         </tbody>
