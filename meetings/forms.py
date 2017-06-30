@@ -1,6 +1,8 @@
 from django import forms
+from django.contrib.contenttypes.forms import generic_inlineformset_factory
+from django.utils.translation import ugettext_lazy as _
 
-from .models import ContactAttempt, Meeting, Official
+from .models import ContactAttempt, Meeting, Official, Source
 
 # Use Bootstrap's class
 DEFAULT_FORM_WIDGET_CLASS = 'form-control'
@@ -47,6 +49,34 @@ class MeetingForm(forms.ModelForm):
                 'class': DEFAULT_FORM_WIDGET_CLASS,
             })
         }
+
+
+class SourceForm(forms.ModelForm):
+    class Meta:
+        model = Source
+        # Use HTML5 input types to get widgets and do some client-side
+        # validation
+        fields = [
+            'url',
+        ]
+
+        labels = {
+            'url': _("Source URL"),
+        }
+
+        widgets = {
+            'url': forms.URLInput(attrs={
+                'class': DEFAULT_FORM_WIDGET_CLASS,
+            }),
+        }
+
+
+SourceFormSet = generic_inlineformset_factory(
+    Source,
+    form=SourceForm,
+    can_delete=False,
+    max_num=1
+)
 
 
 class ContactAttemptForm(forms.ModelForm):

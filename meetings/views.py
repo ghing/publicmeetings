@@ -11,7 +11,8 @@ from django.views.generic import DetailView, ListView, CreateView
 from django.views.generic.base import ContextMixin, TemplateResponseMixin
 from django.views.generic.edit import ProcessFormView
 
-from .forms import ContactAttemptForm, MeetingForm, OfficialMeetingInfoForm
+from .forms import (ContactAttemptForm, MeetingForm, OfficialMeetingInfoForm,
+    SourceFormSet)
 from .models import Meeting, Official
 
 
@@ -34,11 +35,27 @@ class MeetingCreateView(LoginRequiredMixin, CreateView):
         self._official = Official.objects.get(pk=kwargs['pk'])
         self._user = request.user
 
-        return super(MeetingCreateView, self).post(request, *args, **kwargs)
+        form = self.get_form()
+        source_form = SourceFormSet(self.request.POST)
+
+        if form.is_valid() and source_form.is_valid():
+            return self.form_valid(form, source_form)
+        else:
+            return self.form_invalid(form, source_form)
+
+    def form_valid(self, form, source_form):
+        self.object = form.save()
+        source_form.instance = self.object
+        source_form.save()
+        return HttpResponseRedirect(self.get_success_url())
+
+    def form_invalid(self, form, source_form):
+        pass
 
     def get_context_data(self, **kwargs):
         context = super(MeetingCreateView, self).get_context_data(**kwargs)
         context['official'] = self._official
+        context['source_form'] = SourceFormSet()
 
         return context
 

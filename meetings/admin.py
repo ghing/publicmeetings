@@ -1,7 +1,8 @@
 from django.contrib import admin
+from django.contrib.contenttypes.admin import GenericTabularInline
 
 from .models import (Division, Office, Official, Email, Phone, Address,
-        SocialMediaChannel, Website, ContactAttempt, Meeting)
+        SocialMediaChannel, Website, ContactAttempt, Meeting, Source)
 
 
 admin.site.register(Division)
@@ -33,8 +34,14 @@ class WebsiteInline(admin.TabularInline):
     extra = 0
 
 
+class SourceInline(GenericTabularInline):
+    model = Source
+    extra = 1
+
+
 @admin.register(Meeting)
 class MeetingAdmin(admin.ModelAdmin):
+    inlines = [SourceInline,]
     search_fields = ['official__name']
 
     def formfield_for_foreignkey(self, db_field, request, **kwargs):

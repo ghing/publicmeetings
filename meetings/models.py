@@ -1,6 +1,8 @@
 from datetime import datetime
 
 from django.conf import settings
+from django.contrib.contenttypes.fields import GenericForeignKey, GenericRelation
+from django.contrib.contenttypes.models import ContentType
 from django.db import models
 from django.utils.text import slugify
 
@@ -180,6 +182,7 @@ class Meeting(models.Model):
     event_website = models.URLField(blank=True)
     notes = models.TextField(blank=True)
     official = models.ForeignKey('Official', related_name='meetings')
+    sources = GenericRelation('Source', related_query_name='meetings')
 
     def __str__(self):
         return "{} on {}".format(self.official, self.date)
@@ -209,3 +212,15 @@ class ContactAttempt(models.Model):
 
     def __str__(self):
         return "{} on {} by {}".format(self.official, self.datetime, self.user)
+
+
+class Source(models.Model):
+    """Source for a piece of information in this system"""
+
+    url = models.URLField()
+    content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
+    object_id = models.PositiveIntegerField()
+    content_object = GenericForeignKey('content_type', 'object_id')
+
+    def __str__(self):
+        return self.url

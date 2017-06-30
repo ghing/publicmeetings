@@ -15,6 +15,16 @@
 
     <form action="" method="post">{% csrf_token %}
         {{ form.as_p }}
+
+        <fieldset>
+            {{ source_form.management_form }}
+            {{ source_form.non_form_errors }}
+
+            {% for inline_form in source_form %}
+              {{ inline_form.as_p }}
+            {% endfor %}
+        </fieldset>
+
         <input type="submit" value="{% trans "Save" %}" />
     </form>
 </div>

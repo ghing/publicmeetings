@@ -33,8 +33,6 @@ class OfficialResource(DjangoResource):
         if through_twitter is not None:
             qs = qs.promotes_meetings_through_twitter()
 
-        self._include_fields_from_notes = 'include_fields_from_notes' in self.request.GET
-
         return qs
 
     def prepare(self, data):
@@ -56,11 +54,8 @@ class OfficialResource(DjangoResource):
             'meeting_type': meeting.meeting_type,
             'location': meeting.location,
             'event_website': meeting.event_website,
+            'sources': [s.url for s in meeting.sources.all()],
         }
-
-        if self._include_fields_from_notes:
-            from_notes = meeting.fields_from_notes()
-            prepared.update(from_notes)
 
         return prepared
 
