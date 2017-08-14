@@ -41,6 +41,13 @@ class OfficialResource(DjangoResource):
         prepped['social_media'] = self._prepare_social_media(data)
         prepped['office'] = self._prepare_office(data)
 
+        extra_fields = set(['phones', 'emails'])
+        include_fields = self.request.GET.getlist('include_field')
+        for fieldname in include_fields:
+            if fieldname in extra_fields:
+                preparer = getattr(self, '_prepare_{0}'.format(fieldname))
+                prepped[fieldname] = preparer(data)
+
         return prepped
 
     def _prepare_meetings(self, data):
@@ -80,3 +87,15 @@ class OfficialResource(DjangoResource):
             'ocd_id': division.ocd_id,
             'name': division.name,
         }
+
+    def _prepare_phones(self, data):
+        return [self._prepare_phone(p) for p in data.phones.all()]
+
+    def _prepare_phone(self, data):
+        return data.phone
+
+    def _prepare_emails(self, data):
+        return [self._prepare_email(e) for e in data.emails.all()]
+
+    def _prepare_email(self, data):
+        return data.address
